@@ -2,7 +2,7 @@
 
 Dieses Verzeichnis enthält die React-/TypeScript-Anwendung mit Express-Backend.
 
-Die vollständige Projektdokumentation steht in [`../README.de.md`](../README.de.md).
+Die vollständige Projektdokumentation steht in [`../README.md`](../README.md).
 
 Webseite: <https://gotha.friedenstein.de/>
 
