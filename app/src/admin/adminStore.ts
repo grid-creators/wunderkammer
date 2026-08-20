@@ -8,6 +8,7 @@ const DEFAULT_POI_CONFIG: AdminPOIConfig = {
   wikidataProperties: null,
   factgridProperties: null,
   selectedImages: null,
+  heroImage: null,
 };
 
 export async function loadAdminConfig(): Promise<AdminConfig> {
@@ -36,6 +37,29 @@ export function getPOIConfig(config: AdminConfig, poiId: number): AdminPOIConfig
 
 export function isPOIEnabled(config: AdminConfig, poiId: number): boolean {
   return getPOIConfig(config, poiId).enabled;
+}
+
+export async function patchPoiFactgrid(poiId: number, factgridId: string | null): Promise<boolean> {
+  const token = localStorage.getItem(TOKEN_KEY);
+  try {
+    const res = await fetch(`/api/pois/${poiId}/factgrid`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ factgridId }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      console.error(`patchPoiFactgrid failed (${res.status}):`, err);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.error('patchPoiFactgrid error:', e);
+    return false;
+  }
 }
 
 export { DEFAULT_POI_CONFIG };

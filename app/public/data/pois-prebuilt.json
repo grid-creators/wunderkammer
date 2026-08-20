@@ -16,21 +16,26 @@
       "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/006_Bahnhof_Gotha.jpg/500px-006_Bahnhof_Gotha.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/007_Bahnhof_Gotha.jpg/500px-007_Bahnhof_Gotha.jpg"
     ],
-    "fetched_at": "2026-03-13T06:20:21.930Z"
+    "fetched_at": "2026-03-21T22:26:07.989Z"
   },
   {
     "id": 2,
     "summary_de": "Die Gothaer Versicherungsbank VVaG ist ein deutsches Versicherungsunternehmen. Der Versicherungsverein auf Gegenseitigkeit hat seinen Sitz in Köln. Seit 2024 gehört die Gothaer zur BarmeniaGothaer Gruppe, die sie gemeinsam mit dem Versicherungsverein Barmenia führt.",
     "summary_en": "",
     "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Gothaer.svg/langde-330px-Gothaer.svg.png",
-    "marker_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Gothaer.svg/langde-330px-Gothaer.svg.png",
+    "marker_image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/2022_Gotha%2C_Bahnhofstra%C3%9Fe_3A.jpg/120px-2022_Gotha%2C_Bahnhofstra%C3%9Fe_3A.jpg",
     "wikidata_label": "Gothaer Versicherungsbank",
     "wikidata_description_de": "Versicherungskonzern",
     "wikidata_description_en": "German insurance company",
-    "factgrid_label": "Gothaer Feuer (insurance)",
-    "factgrid_description": "insurance company founded in Gotha in 1820",
-    "images": [],
-    "fetched_at": "2026-03-13T06:20:22.166Z"
+    "factgrid_label": null,
+    "factgrid_description": null,
+    "images": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Arnoldi-B%C3%BCste_2020-05-18_001.jpg/500px-Arnoldi-B%C3%BCste_2020-05-18_001.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Das_ehemalige_Geb%C3%A4ude_der_Gothaer_Lebensversicherungsbank.jpg/500px-Das_ehemalige_Geb%C3%A4ude_der_Gothaer_Lebensversicherungsbank.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/B%C3%BCste_Ernst_Wilhelm_Arnoldis.jpg/500px-B%C3%BCste_Ernst_Wilhelm_Arnoldis.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/2022_Gotha%2C_Bahnhofstra%C3%9Fe_3A.jpg/500px-2022_Gotha%2C_Bahnhofstra%C3%9Fe_3A.jpg"
+    ],
+    "fetched_at": "2026-03-21T22:26:08.228Z"
   },
   {
     "id": 3,
@@ -41,7 +46,7 @@
     "wikidata_label": "Orangerie Gotha",
     "wikidata_description_de": "Schloss in Deutschland",
     "wikidata_description_en": "Gotha",
-    "factgrid_label": null,
+    "factgrid_label": "Gotha, Orangenhaus of the Orangery",
     "factgrid_description": null,
     "images": [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Bundesarchiv_Bild_183-37295-0001%2C_Gotha%2C_Orangerie.jpg/500px-Bundesarchiv_Bild_183-37295-0001%2C_Gotha%2C_Orangerie.jpg",
@@ -49,7 +54,7 @@
       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/GLAM_Gotha_Orangerie-6574.jpg/500px-GLAM_Gotha_Orangerie-6574.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/GLAM_Gotha_Orangerie-6573.jpg/500px-GLAM_Gotha_Orangerie-6573.jpg"
     ],
-    "fetched_at": "2026-03-13T06:20:22.323Z"
+    "fetched_at": "2026-03-21T22:26:08.386Z"
   },
   {
     "id": 4,
@@ -63,7 +68,7 @@
     "factgrid_label": "Ekhof Theatre/ Theater of Schloss Friedenstein",
     "factgrid_description": "one of the oldest baroque theatres, in the west tower of Friedenstein Castle in Gotha, built under Duke Friedrich I. of Sachsen-Gotha-Altenburg from 1681-1683",
     "images": [],
-    "fetched_at": "2026-03-13T06:20:22.634Z"
+    "fetched_at": "2026-03-21T22:26:08.622Z"
   },
   {
     "id": 5,
@@ -82,7 +87,7 @@
       "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Gotha_Kaufhaus_moses.jpg/500px-Gotha_Kaufhaus_moses.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Conitzer_Gotha_1948.jpg/500px-Conitzer_Gotha_1948.jpg"
     ],
-    "fetched_at": "2026-03-13T06:20:22.772Z"
+    "fetched_at": "2026-03-21T22:26:08.775Z"
   },
   {
     "id": 6,
@@ -101,7 +106,7 @@
       "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Gotha_kosciol_sw_Malgorzaty_3.jpg/500px-Gotha_kosciol_sw_Malgorzaty_3.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Gotha_kosciol_sw_Malgorzaty_1.jpg/500px-Gotha_kosciol_sw_Malgorzaty_1.jpg"
     ],
-    "fetched_at": "2026-03-13T06:20:22.915Z"
+    "fetched_at": "2026-03-21T22:26:09.001Z"
   },
   {
     "id": 7,
@@ -120,7 +125,7 @@
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Gotha_Hauptmarkt-2-3_20240615_162121.jpg/500px-Gotha_Hauptmarkt-2-3_20240615_162121.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Gotha_Hauptmarkt-2_20240615_172427.jpg/500px-Gotha_Hauptmarkt-2_20240615_172427.jpg"
     ],
-    "fetched_at": "2026-03-13T06:20:23.061Z"
+    "fetched_at": "2026-03-21T22:26:09.146Z"
   },
   {
     "id": 8,
@@ -137,7 +142,7 @@
       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/2010_Kerzen_im_Kilo%2C_Gothaer_Kerzenfabrik_Filiale_J%C3%BCdenstra%C3%9Fe.JPG/500px-2010_Kerzen_im_Kilo%2C_Gothaer_Kerzenfabrik_Filiale_J%C3%BCdenstra%C3%9Fe.JPG",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/J%C3%BCdenstra%C3%9Fe_Gotha.jpg/500px-J%C3%BCdenstra%C3%9Fe_Gotha.jpg"
     ],
-    "fetched_at": "2026-03-13T06:20:23.203Z"
+    "fetched_at": "2026-03-21T22:26:09.301Z"
   },
   {
     "id": 9,
@@ -151,7 +156,7 @@
     "factgrid_label": null,
     "factgrid_description": null,
     "images": [],
-    "fetched_at": "2026-03-13T06:20:23.349Z"
+    "fetched_at": "2026-03-21T22:26:09.434Z"
   },
   {
     "id": 10,
@@ -165,7 +170,7 @@
     "factgrid_label": null,
     "factgrid_description": null,
     "images": [],
-    "fetched_at": "2026-03-13T06:20:23.495Z"
+    "fetched_at": "2026-03-21T22:26:09.597Z"
   },
   {
     "id": 11,
@@ -179,7 +184,7 @@
     "factgrid_label": "Friedenstein Palace, Gotha",
     "factgrid_description": "palace in Gotha",
     "images": [],
-    "fetched_at": "2026-03-13T06:20:23.734Z"
+    "fetched_at": "2026-03-21T22:26:09.817Z"
   },
   {
     "id": 12,
@@ -193,6 +198,6 @@
     "factgrid_label": "Ducal Museum, Gotha",
     "factgrid_description": "Museum at the south side of Gotha's palace",
     "images": [],
-    "fetched_at": "2026-03-13T06:20:23.980Z"
+    "fetched_at": "2026-03-21T22:26:09.977Z"
   }
 ]

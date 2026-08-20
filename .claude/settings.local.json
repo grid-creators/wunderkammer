@@ -18,7 +18,15 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:wikimedia.org)",
       "WebFetch(domain:til.simonwillison.net)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(cd:*)",
+      "Bash(python3:*)",
+      "WebFetch(domain:de.wikipedia.org)",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "Bash(node:*)",
+      "Bash(ls /srv/apps/wunderkammer/*.py)",
+      "Bash(npx eslint:*)"
     ]
   }
 }

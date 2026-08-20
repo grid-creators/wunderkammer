@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { POIBase, WikidataClaim } from '../types';
 import { useAdmin } from './useAdmin';
+import { pois as staticPois } from '../data/pois';
+import { patchPoiFactgrid } from './adminStore';
 import { fetchWikidataEntity } from '../api/wikidata';
 import { fetchFactGridEntity } from '../api/factgrid';
 import { fetchWikipediaSummary } from '../api/wikipedia';
@@ -50,7 +52,8 @@ export default function AdminPOIEditor({ poi, onBack }: AdminPOIEditorProps) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language as 'de' | 'en';
   const title = lang === 'en' ? poi.title_en : poi.title_de;
-  const { getConfig, updatePOI } = useAdmin();
+  const { getConfig, updatePOI, updatePOIBase } = useAdmin();
+  const isStaticPOI = staticPois.some((p) => p.id === poi.id);
   const cfg = getConfig(poi.id);
 
   // Local editor state
@@ -58,6 +61,9 @@ export default function AdminPOIEditor({ poi, onBack }: AdminPOIEditorProps) {
   const [wdSelected, setWdSelected] = useState<string[] | null>(cfg.wikidataProperties);
   const [fgSelected, setFgSelected] = useState<string[] | null>(cfg.factgridProperties);
   const [imgSelected, setImgSelected] = useState<string[] | null>(cfg.selectedImages);
+  const [heroImage, setHeroImage] = useState<string | null>(cfg.heroImage ?? null);
+  const effectiveFactgridId = cfg.factgridIdOverride !== undefined ? cfg.factgridIdOverride : poi.factgrid_id;
+  const [factgridId, setFactgridId] = useState<string>(effectiveFactgridId ?? '');
 
   // Fetch Wikipedia preview text
   const wikiTitle = lang === 'en' && poi.wikipedia_en ? poi.wikipedia_en : poi.wikipedia_de;
@@ -67,6 +73,20 @@ export default function AdminPOIEditor({ poi, onBack }: AdminPOIEditorProps) {
       ? fetchWikipediaSummary(wikiTitle, wikiLang).then((d) => d?.extract ?? '')
       : Promise.resolve(''),
     [wikiTitle, wikiLang]
+  );
+
+  // Fetch Wikipedia thumbnails (both languages) for hero image picker
+  const { data: wikiDeThumb } = useAsyncData(
+    () => poi.wikipedia_de
+      ? fetchWikipediaSummary(poi.wikipedia_de, 'de').then((d) => d?.thumbnail?.source ?? null)
+      : Promise.resolve(null),
+    [poi.wikipedia_de]
+  );
+  const { data: wikiEnThumb } = useAsyncData(
+    () => poi.wikipedia_en
+      ? fetchWikipediaSummary(poi.wikipedia_en, 'en').then((d) => d?.thumbnail?.source ?? null)
+      : Promise.resolve(null),
+    [poi.wikipedia_en]
   );
 
   // Fetch Wikidata properties
@@ -111,15 +131,28 @@ export default function AdminPOIEditor({ poi, onBack }: AdminPOIEditorProps) {
     [poi.commons_category]
   );
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
+    const trimmed = factgridId.trim();
+    const factgridChanged = trimmed !== (poi.factgrid_id ?? '');
     updatePOI(poi.id, {
       previewLength,
       wikidataProperties: wdSelected,
       factgridProperties: fgSelected,
       selectedImages: imgSelected,
+      heroImage,
+      factgridIdOverride: factgridChanged ? (trimmed || null) : undefined,
     });
+    if (factgridChanged) {
+      if (isStaticPOI) {
+        const ok = await patchPoiFactgrid(poi.id, trimmed || null);
+        if (ok) updatePOI(poi.id, { factgridIdOverride: undefined });
+      } else {
+        updatePOIBase(poi.id, { factgrid_id: trimmed || null });
+        updatePOI(poi.id, { factgridIdOverride: undefined });
+      }
+    }
     onBack();
-  }, [poi.id, previewLength, wdSelected, fgSelected, imgSelected, updatePOI, onBack]);
+  }, [poi.id, poi.factgrid_id, previewLength, wdSelected, fgSelected, imgSelected, heroImage, factgridId, isStaticPOI, updatePOI, updatePOIBase, onBack]);
 
   const toggleProperty = (
     current: string[] | null,
@@ -213,6 +246,32 @@ export default function AdminPOIEditor({ poi, onBack }: AdminPOIEditorProps) {
       </div>
 
       <div style={{ padding: '0 12px 16px' }}>
+        {/* FactGrid ID */}
+        <div style={sectionStyle}>
+          <span style={labelStyle}>FactGrid ID</span>
+          <input
+            type="text"
+            value={factgridId}
+            onChange={(e) => setFactgridId(e.target.value)}
+            placeholder="Q12345"
+            style={{
+              width: '100%',
+              padding: '8px 10px',
+              fontSize: 14,
+              border: '1px solid #ddd',
+              borderRadius: 6,
+              outline: 'none',
+              fontFamily: 'var(--font-family)',
+              boxSizing: 'border-box' as const,
+            }}
+          />
+          {poi.factgrid_id && factgridId.trim() !== poi.factgrid_id && (
+            <div style={{ fontSize: 11, color: '#999', marginTop: 4 }}>
+              {t('admin_factgrid_original')}: {poi.factgrid_id}
+            </div>
+          )}
+        </div>
+
         {/* Preview text length */}
         {(poi.wikipedia_de || poi.wikipedia_en) && (
           <div style={sectionStyle}>
@@ -308,6 +367,79 @@ export default function AdminPOIEditor({ poi, onBack }: AdminPOIEditorProps) {
             )}
           </div>
         )}
+
+        {/* Hero image picker */}
+        {(poi.wikipedia_de || poi.wikipedia_en || poi.commons_category) && (() => {
+          const heroOptions: { url: string; label: string }[] = [];
+          if (wikiDeThumb) heroOptions.push({ url: wikiDeThumb, label: 'Wikipedia DE' });
+          if (wikiEnThumb && wikiEnThumb !== wikiDeThumb) heroOptions.push({ url: wikiEnThumb, label: 'Wikipedia EN' });
+          (images ?? []).forEach((img) => heroOptions.push({ url: img.url, label: img.title }));
+          return heroOptions.length > 0 ? (
+            <div style={sectionStyle}>
+              <span style={labelStyle}>{t('admin_hero_image')}</span>
+              <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 8 }}>
+                <div
+                  onClick={() => setHeroImage(null)}
+                  style={{
+                    cursor: 'pointer',
+                    borderRadius: 6,
+                    border: heroImage === null ? '3px solid var(--color-gerberarot)' : '3px solid #ddd',
+                    padding: '6px 12px',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: heroImage === null ? 'var(--color-gerberarot)' : '#666',
+                    background: heroImage === null ? '#fff5f5' : '#fafafa',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  {t('admin_hero_image_default')}
+                </div>
+                {heroOptions.map((opt) => (
+                  <div
+                    key={opt.url}
+                    onClick={() => setHeroImage(heroImage === opt.url ? null : opt.url)}
+                    title={opt.label}
+                    style={{
+                      position: 'relative',
+                      cursor: 'pointer',
+                      borderRadius: 6,
+                      overflow: 'hidden',
+                      border: heroImage === opt.url ? '3px solid var(--color-gerberarot)' : '3px solid transparent',
+                      opacity: heroImage !== null && heroImage !== opt.url ? 0.45 : 1,
+                      transition: 'opacity 0.2s, border-color 0.2s',
+                      width: 100,
+                      flexShrink: 0,
+                    }}
+                  >
+                    <img
+                      src={opt.url}
+                      alt={opt.label}
+                      style={{ width: '100%', height: 70, objectFit: 'cover', display: 'block' }}
+                    />
+                    {heroImage === opt.url && (
+                      <div style={{
+                        position: 'absolute',
+                        top: 4,
+                        right: 4,
+                        width: 18,
+                        height: 18,
+                        borderRadius: 9,
+                        background: 'var(--color-gerberarot)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: 11,
+                        color: '#fff',
+                        fontWeight: 700,
+                      }}>★</div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null;
+        })()}
 
         {/* Commons images */}
         {poi.commons_category && (

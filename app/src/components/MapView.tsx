@@ -83,7 +83,7 @@ export default function MapView({ activePOI, onPOIClick }: MapViewProps) {
           active={activePOI?.id === poi.id}
           lang={i18n.language}
           onClick={onPOIClick}
-          markerImage={markerImages[poi.id] ?? null}
+          markerImage={getConfig(poi.id).heroImage ?? markerImages[poi.id] ?? null}
         />
       ))}
     </MapContainer>

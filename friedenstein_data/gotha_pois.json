@@ -18,9 +18,8 @@
     "lng": 10.712222,
     "uuid": "a95ed8db-2d41-4f70-8b4d-b0747d3189ca",
     "stop_uuid": "4a700560-3428-4f0a-bd36-910dff64f6c4",
-    "factgrid": "Q195046",
-    "factgrid_label": "Gothaer Feuer (insurance)",
-    "factgrid_note": "Partial match: Q195046 is the Gothaer Feuerversicherungsbank (fire insurance, founded 1820), a closely related institution. The Lebensversicherungsbank (life insurance, founded 1827) itself has no separate FactGrid item."
+    "factgrid": null,
+    "factgrid_note": "Not found on FactGrid"
   },
   {
     "poi": 3,

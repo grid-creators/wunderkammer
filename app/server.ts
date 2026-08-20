@@ -15,6 +15,7 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 const DATA_DIR = join(__dirname, '..', 'data');
 const CONFIG_PATH = join(DATA_DIR, 'admin-config.json');
 const USERS_PATH = join(DATA_DIR, 'admin-users.json');
+const POIS_PATH = join(__dirname, 'src', 'data', 'pois.ts');
 const BCRYPT_ROUNDS = 12;
 
 // --- Password hashing (bcrypt) ---
@@ -187,10 +188,57 @@ async function start() {
   if (process.env.NODE_ENV === 'production') {
     const distPath = join(__dirname, 'dist');
     app.use(express.static(distPath));
-    app.get('*', (_req, res) => {
+    app.get('/{*splat}', (_req, res) => {
       res.sendFile(join(distPath, 'index.html'));
     });
   } else {
+    // Register PATCH route before Vite middleware (Vite intercepts unmatched requests)
+    app.patch('/api/pois/:id/factgrid', (req, res) => {
+      const token = extractToken(req);
+      if (!validateToken(token).valid) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+      }
+      const poiId = parseInt(req.params.id, 10);
+      if (isNaN(poiId)) {
+        res.status(400).json({ error: 'Invalid POI id' });
+        return;
+      }
+      const body = req.body as { factgridId?: string | null } | undefined;
+      const factgridId = body?.factgridId ?? null;
+      if (factgridId !== null && (typeof factgridId !== 'string' || !/^[A-Za-z0-9_-]+$/.test(factgridId))) {
+        res.status(400).json({ error: 'Invalid factgridId' });
+        return;
+      }
+      try {
+        if (!existsSync(POIS_PATH)) {
+          res.status(404).json({ error: 'pois.ts not found' });
+          return;
+        }
+        const source = readFileSync(POIS_PATH, 'utf-8');
+        const newValue = factgridId ? `'${factgridId}'` : 'null';
+        const idRegex = new RegExp(`\\bid:\\s*${poiId}\\s*,`);
+        const idMatch = idRegex.exec(source);
+        if (!idMatch) {
+          res.status(404).json({ error: 'POI not found in pois.ts' });
+          return;
+        }
+        const after = source.slice(idMatch.index + idMatch[0].length);
+        const fgMatch = /\bfactgrid_id:\s*[^\n,]+,?/.exec(after);
+        if (!fgMatch) {
+          res.status(404).json({ error: 'factgrid_id field not found' });
+          return;
+        }
+        const fgStart = idMatch.index + idMatch[0].length + fgMatch.index;
+        const fgEnd = fgStart + fgMatch[0].length;
+        const updated = source.slice(0, fgStart) + `factgrid_id: ${newValue},` + source.slice(fgEnd);
+        writeFileSync(POIS_PATH, updated, 'utf-8');
+        res.json({ ok: true });
+      } catch (err) {
+        res.status(500).json({ error: String(err) });
+      }
+    });
+
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },

@@ -27,7 +27,10 @@ export default function POIDetail({ poi }: POIDetailProps) {
   const wikiLang = lang === 'en' && poi.wikipedia_en ? 'en' : 'de';
   const { data: wiki, loading } = useWikipedia(wikiTitle, wikiLang);
   const { data: wikidata } = useWikidata(poi.wikidata_id);
-  const { data: factgrid } = useFactGrid(poi.factgrid_id);
+  const effectiveFactgridId = adminCfg.factgridIdOverride !== undefined
+    ? adminCfg.factgridIdOverride
+    : poi.factgrid_id;
+  const { data: factgrid } = useFactGrid(effectiveFactgridId);
 
   const fetchWdLabels = useCallback(
     (ids: string[], l: string) => fetchWikidataLabels(ids, l),
@@ -41,9 +44,9 @@ export default function POIDetail({ poi }: POIDetailProps) {
   return (
     <div style={{ padding: 16, maxWidth: 600, margin: '0 auto' }}>
       {/* Hero image */}
-      {wiki?.thumbnail && (
+      {(adminCfg.heroImage || wiki?.thumbnail) && (
         <img
-          src={wiki.thumbnail.source}
+          src={adminCfg.heroImage ?? wiki!.thumbnail!.source}
           alt={title}
           style={{
             width: '100%',
@@ -126,10 +129,10 @@ export default function POIDetail({ poi }: POIDetailProps) {
       )}
 
       {/* FactGrid statements */}
-      {poi.factgrid_id && factgrid && (
+      {effectiveFactgridId && factgrid && (
         <StatementsPanel
           claims={factgrid.claims}
-          entityId={poi.factgrid_id}
+          entityId={effectiveFactgridId}
           source="factgrid"
           accentColor="var(--color-loungeviolett)"
           bgColor="#f8f6ff"

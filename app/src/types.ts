@@ -85,6 +85,8 @@ export interface AdminPOIConfig {
   wikidataProperties: string[] | null; // property IDs to show, null = all
   factgridProperties: string[] | null; // property IDs to show, null = all
   selectedImages: string[] | null; // image filenames to show, null = all
+  heroImage: string | null; // override hero image URL, null = use Wikipedia default
+  factgridIdOverride?: string | null; // override factgrid_id, undefined = use POI default
 }
 
 export interface AdminConfig {

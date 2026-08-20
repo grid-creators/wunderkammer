@@ -31,9 +31,9 @@ export default function POICard({ poi, onClick, fallbackImage }: POICardProps) {
         fontFamily: 'var(--font-family)',
       }}
     >
-      {(wiki?.thumbnail?.source || fallbackImage) && (
+      {(fallbackImage || wiki?.thumbnail?.source) && (
         <img
-          src={wiki?.thumbnail?.source || fallbackImage!}
+          src={fallbackImage || wiki?.thumbnail?.source!}
           alt={title}
           style={{
             width: 72,

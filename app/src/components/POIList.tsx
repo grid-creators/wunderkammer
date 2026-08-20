@@ -75,7 +75,7 @@ export default function POIList({ onPOIClick }: POIListProps) {
       </h2>
       <div>
         {pois.filter((poi) => getConfig(poi.id).enabled).map((poi) => (
-          <POICard key={poi.id} poi={poi} onClick={onPOIClick} fallbackImage={markerImages[poi.id] ?? null} />
+          <POICard key={poi.id} poi={poi} onClick={onPOIClick} fallbackImage={getConfig(poi.id).heroImage ?? markerImages[poi.id] ?? null} />
         ))}
       </div>
     </div>

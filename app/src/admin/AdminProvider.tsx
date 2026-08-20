@@ -32,6 +32,18 @@ export default function AdminProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const updatePOIBase = useCallback((poiId: number, updates: Partial<POIBase>) => {
+    setConfig((prev) => {
+      const existing = prev.customPois ?? [];
+      const next: AdminConfig = {
+        ...prev,
+        customPois: existing.map((p) => p.id === poiId ? { ...p, ...updates } : p),
+      };
+      saveAdminConfig(next);
+      return next;
+    });
+  }, []);
+
   const addPOI = useCallback((poi: POIBase) => {
     setConfig((prev) => {
       const existing = prev.customPois ?? [];
@@ -65,7 +77,7 @@ export default function AdminProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AdminContext.Provider value={{ config, getConfig, updatePOI, addPOI, removePOI, loading, reloadConfig }}>
+    <AdminContext.Provider value={{ config, getConfig, updatePOI, updatePOIBase, addPOI, removePOI, loading, reloadConfig }}>
       {children}
     </AdminContext.Provider>
   );

@@ -63,6 +63,9 @@ const resources = {
       admin_longitude: 'Längengrad',
       admin_custom: 'Benutzerdefiniert',
       admin_confirm_remove: 'Diesen POI wirklich entfernen?',
+      admin_hero_image: 'Titelbild',
+      admin_hero_image_default: 'Standard (Wikipedia)',
+      admin_factgrid_original: 'Original',
     },
   },
   en: {
@@ -126,6 +129,9 @@ const resources = {
       admin_longitude: 'Longitude',
       admin_custom: 'Custom',
       admin_confirm_remove: 'Remove this POI?',
+      admin_hero_image: 'Hero Image',
+      admin_hero_image_default: 'Default (Wikipedia)',
+      admin_factgrid_original: 'Original',
     },
   },
 };
