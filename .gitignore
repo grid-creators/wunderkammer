@@ -6,3 +6,4 @@ doc/
 data/admin-config.json
 data/admin-users.json
 dev.log
+.claude/settings.local.json
